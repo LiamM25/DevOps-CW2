@@ -41,13 +41,8 @@ pipeline {
                     ssh ubuntu@172.31.53.98 '/usr/bin/kubectl set image deployments/devops-cw2 devops-cw2=liamm25/devops-cw2:1.0'
                     '''
                 
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build, test, push, and optionally deploy successful!'
-        }
-    }
+            			}
+        		}
+    		}
+	}
 }
