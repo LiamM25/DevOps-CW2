@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+	DOCKER_IMAGE_NAME = 'liamm25/devops-cw2:latest'
         DOCKER_COMMON_CREDS = credentials('liam-dockerhub') 
     }
 
