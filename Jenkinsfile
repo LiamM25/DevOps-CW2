@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = 'liamm25/devops-cw2'
+        DOCKERHUB_CREDENTIALS = credentials('liam-dockerhub')  // Add your DockerHub credentials ID
     }
 
     stages {
