@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = 'liamm25/devops-cw2'
-        DOCKERHUB_USERNAME = credentials('liam-dockerhub').username
-        DOCKERHUB_PASSWORD = credentials('liam-dockerhub').password
+        DOCKERHUB_USERNAME = 'liamm25'
+        DOCKERHUB_PASSWORD = 'CBxmLqeF1OzipHl'
     }
 
     stages {
