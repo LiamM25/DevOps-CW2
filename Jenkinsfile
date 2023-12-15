@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = 'liamm25/devops-cw2'
-        DOCKERHUB_USERNAME = 'liamm25'
-        DOCKERHUB_PASSWORD = 'CBxmLqeF1OzipHl'
+        DOCKER_COMMON_CREDS = credentials('liam-dockerhub') 
     }
 
     stages {
@@ -28,13 +26,9 @@ pipeline {
 
         stage('Push to DockerHub') {
             steps {
-                script {
-                    // Login to DockerHub
-                    sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
-
-                    // Push the Docker image to DockerHub
-                    sh "docker push ${env.DOCKER_IMAGE_NAME}:1.0"
-                }
+		  
+                sh 'docker login -u $DOCKER_COMMON_CREDS_USR -p $DOCKER_COMMON_CREDS_PSW'
+                sh 'docker push liamm25/devops-cw2:1.0'
             }
         }
 
