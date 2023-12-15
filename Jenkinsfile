@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = 'liamm25/devops-cw2'
-        DOCKERHUB_CREDENTIALS = credentials('liam-dockerhub')  // Add your DockerHub credentials ID
+        DOCKERHUB_USERNAME = credentials('liam-dockerhub').username
+        DOCKERHUB_PASSWORD = credentials('liam-dockerhub').password
     }
 
     stages {
@@ -28,21 +29,18 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 script {
-                    // Authenticate Docker to DockerHub using credentials
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
-                        // Get the Docker image reference
-                        def dockerImage = docker.image(env.DOCKER_IMAGE_NAME)
+                    // Login to DockerHub
+                    sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
 
-                        // Push the Docker image to DockerHub
-                        dockerImage.push()
-                    }
+                    // Push the Docker image to DockerHub
+                    sh "docker push ${env.DOCKER_IMAGE_NAME}:1.0"
                 }
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh "kubectl create deployment devops-cw2 --image=liamm25/devops-cw2:latest"
+                sh "kubectl create deployment devops-cw2 --image=${env.DOCKER_IMAGE_NAME}:1.0"
             }
         }
     }
