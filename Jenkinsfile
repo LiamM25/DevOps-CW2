@@ -37,7 +37,7 @@ pipeline {
             steps {
                 sshagent(['Production_key']) {
                     sh '''
-                        ssh ubuntu@172.31.54.166 '/usr/bin/kubectl set image deployments/devops-cw2 image=liamm25/devops-cw2:1.0'
+                        ssh ubuntu@172.31.54.166 'kubectl create deployment devops-cw2 --image=liamm25/devops-cw2:1.0'
                     '''
                 }
             }
