@@ -35,7 +35,12 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh "kubectl create deployment devops-cw2 --image=${env.DOCKER_IMAGE_NAME}:1.0"
+		sshagent(['ProductionServer']) {
+                    
+		sh '''
+                    ssh ubuntu@172.31.53.98 '/usr/bin/kubectl set image deployments/devops-cw2 devops-cw2=liamm25/devops-cw2:1.0'
+                    '''
+                
             }
         }
     }
