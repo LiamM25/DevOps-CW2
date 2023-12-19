@@ -7,10 +7,20 @@ pipeline{
     }
 
     stages {
-        stage('Build & test Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(env.DOCKER_IMAGE_NAME, '-f Dockerfile Build Successful!')
+                    docker.build(env.DOCKER_IMAGE_NAME, '-f Dockerfile .')
+                }
+            }
+        }
+
+        stage('Test Docker Image') {
+            steps {
+                script {
+                    docker.image(env.DOCKER_IMAGE_NAME).inside {
+                        sh 'echo "Container launched successfully"'
+                    }
                 }
             }
         }
@@ -24,7 +34,7 @@ pipeline{
         }
 
 
-	stage('Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes') {
             steps {
                 sshagent(['Production_key']) {
 
