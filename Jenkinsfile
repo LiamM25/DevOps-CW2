@@ -4,6 +4,8 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = 'liamm25/devops-cw2:latest'
         DOCKER_COMMON_CREDS = credentials('liam-dockerhub')
+	PRODUCTION_SERVER = 'ubuntu@3.89.251.183'  
+        KUBE_CONFIG_PATH = '/kube/config'
     }
 
     stages {
@@ -33,15 +35,12 @@ pipeline {
             }
         }
 
-	stage('Deploy passed builds to Kubernetes without distrupting service') {
+
+        stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh '''
-                        kubectl set image deployment/devops-cw2 \
-                        devops-cw2=${DOCKER_IMAGE_NAME} \
-                        --kubeconfig=${KUBE_CONFIG} \
-                        --record
-                    '''
+                    // Run kubectl on the production server using the existing kubeconfig
+                    sh "ssh -i /var/lib/jenkins/credentials/Production_key ${PRODUCTION_SERVER} KUBECONFIG=${KUBE_CONFIG_PATH}/kubeconfig kubectl set image deployment/devops-cw2 devops-cw2=${DOCKER_IMAGE_NAME} --record"
                 }
             }
         }
