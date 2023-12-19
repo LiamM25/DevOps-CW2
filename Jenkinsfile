@@ -1,4 +1,3 @@
-pipeline {
     agent any
 
     environment {
@@ -36,11 +35,14 @@ pipeline {
         }
 
 
-        stage('Deploy to Kubernetes') {
+	stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    // Run kubectl on the production server using the existing kubeconfig
-                    sh "ssh -i /var/lib/jenkins/credentials/Production_key ${PRODUCTION_SERVER} KUBECONFIG=${KUBE_CONFIG_PATH}/kubeconfig kubectl set image deployment/devops-cw2 devops-cw2=${DOCKER_IMAGE_NAME} --record"
+                sshagent(['Production_key']) {
+
+                    sh '''
+                    ssh ubuntu@3.89.251.183 '/usr/bin/kubectl set image deployments/devops-cw2 devops-cw2=liamm25/devops-cw2:1.0'
+                    '''
+
                 }
             }
         }
