@@ -36,9 +36,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sshagent(['Production_key']) {
-                    sh '''
-                        ssh ubuntu@3.89.251.183 '/usr/bin/kubectl set image deployments/devops-cw2 devops-cw2=liamm25/devops-cw2:1.0'
-                    '''
+                      sh 'scp /usr/bin/kubectl set image deployments/devops-cw2 devops-cw2=liamm25/devops-cw2:1.0 ubuntu@3.89.251.183'
                 }
             }
         }
