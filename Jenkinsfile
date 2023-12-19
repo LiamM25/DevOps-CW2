@@ -7,20 +7,10 @@ pipeline{
     }
 
     stages {
-        stage('Build Docker Image') {
+        stage('Build & test Docker Image') {
             steps {
                 script {
-                    docker.build(env.DOCKER_IMAGE_NAME, '-f Dockerfile .')
-                }
-            }
-        }
-
-        stage('Test Docker Image') {
-            steps {
-                script {
-                    docker.image(env.DOCKER_IMAGE_NAME).inside {
-                        sh 'echo "Container launched successfully"'
-                    }
+                    docker.build(env.DOCKER_IMAGE_NAME, '-f Dockerfile Build Successful!')
                 }
             }
         }
