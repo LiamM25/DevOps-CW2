@@ -33,10 +33,15 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+	stage('Deploy passed builds to Kubernetes without distrupting service') {
             steps {
-                sshagent(['Production_key']) {
-                      sh 'scp /usr/bin/kubectl set image deployments/devops-cw2 devops-cw2=liamm25/devops-cw2:1.0 ubuntu@3.89.251.183'
+                script {
+                    sh '''
+                        kubectl set image deployment/devops-cw2 \
+                        devops-cw2=${DOCKER_IMAGE_NAME} \
+                        --kubeconfig=${KUBE_CONFIG} \
+                        --record
+                    '''
                 }
             }
         }
