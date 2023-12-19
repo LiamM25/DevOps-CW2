@@ -3,8 +3,7 @@
     environment {
         DOCKER_IMAGE_NAME = 'liamm25/devops-cw2:latest'
         DOCKER_COMMON_CREDS = credentials('liam-dockerhub')
-	PRODUCTION_SERVER = 'ubuntu@3.89.251.183'  
-        KUBE_CONFIG_PATH = '/kube/config'
+	
     }
 
     stages {
