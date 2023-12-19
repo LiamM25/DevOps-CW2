@@ -2,7 +2,7 @@ pipeline{
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = 'liamm25/devops-cw2:1.0'
+        DOCKER_IMAGE_NAME = 'liamm25/devops-cw2:latest'
         DOCKER_COMMON_CREDS = credentials('liam-dockerhub')
     }
 
@@ -39,7 +39,7 @@ pipeline{
                 sshagent(['Production_key']) {
 
                     sh '''
-                    ssh ubuntu@3.89.251.183 '/usr/bin/kubectl set image deployments/devops-cw2 devops-cw2=liamm25/devops-cw2:1.0'
+                    ssh ubuntu@3.89.251.183 '/usr/bin/kubectl set image deployments/devops-cw2 devops-cw2=liamm25/devops-cw2:latest'
                     '''
 
                 }
