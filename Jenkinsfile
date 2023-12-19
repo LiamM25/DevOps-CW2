@@ -4,7 +4,6 @@ pipeline{
     environment {
         DOCKER_IMAGE_NAME = 'liamm25/devops-cw2:1.0'
         DOCKER_COMMON_CREDS = credentials('liam-dockerhub')
-	
     }
 
     stages {
